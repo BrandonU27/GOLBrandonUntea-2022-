@@ -19,6 +19,9 @@ namespace GOLBrandonUntea
         // Game mode switch
         int mode = 0;
 
+        // Number views on/off
+        int viewNum = 0;
+
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -118,10 +121,10 @@ namespace GOLBrandonUntea
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
-
+            
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
-
+            
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -143,6 +146,24 @@ namespace GOLBrandonUntea
 
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+
+                    // Adds numbers if on
+                    if(viewNum == 0)
+                    {
+                        Font font = new Font("Arial", 20f);
+
+                        StringFormat stringFormat = new StringFormat();
+                        stringFormat.Alignment = StringAlignment.Center;
+                        stringFormat.LineAlignment = StringAlignment.Center;
+
+                        int neighbors;
+                        if(mode == 0) { neighbors = CountNeighborsToroidal(x, y); }
+                        else { neighbors = CountNeighborsFinite(x, y); }
+
+                        if(neighbors == 0) { continue; }
+
+                        e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                    }
                 }
             }
 
@@ -190,19 +211,14 @@ namespace GOLBrandonUntea
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
 
-                    // if xOffset and yOffset are both equal to 0 then continue
                     if(xOffset == 0 && yOffset == 0) { continue; }
 
-                    // if xCheck is less than 0 then continue
                     if(xCheck < 0) { continue; }
 
-                    // if yCheck is less than 0 then continue
                     if(yCheck < 0) { continue; }
 
-                    // if xCheck is greater than or equal too xLen then continue
                     if(xCheck >= xLen) { continue; }
 
-                    // if yCheck is greater than or equal too yLen then continue
                     if(yCheck >= yLen) { continue; }
 
                     if (universe[xCheck, yCheck] == true) count++;
@@ -223,19 +239,14 @@ namespace GOLBrandonUntea
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
 
-                    // if xOffset and yOffset are both equal to 0 then continue
                     if(xOffset == 0 && yOffset == 0) { continue; }
 
-                    // if xCheck is less than 0 then set to xLen - 1
                     if(xCheck < 0) { xCheck = xLen - 1; }
 
-                    // if yCheck is less than 0 then set to yLen - 1
                     if(yCheck < 0) { yCheck = yLen - 1; }
 
-                    // if xCheck is greater than or equal too xLen then set to 0
                     if(xCheck >= xLen) { xCheck = 0; }
 
-                    // if yCheck is greater than or equal too yLen then set to 0
                     if(yCheck >= yLen) { yCheck = 0; }
 
                     if (universe[xCheck, yCheck] == true) count++;
@@ -243,6 +254,8 @@ namespace GOLBrandonUntea
             }
             return count;
         }
+
+        // Buttons are all below
 
         // The start pause and next generation buttons function
         //Start
@@ -328,5 +341,20 @@ namespace GOLBrandonUntea
             finiteToolStripMenuItem.Checked = true;
             mode = 1;
         }
+
+        private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(neighborCountToolStripMenuItem.Checked == true)
+            {
+                neighborCountToolStripMenuItem.Checked = false;
+                viewNum = 1;
+            }
+            else
+            {
+                neighborCountToolStripMenuItem.Checked = true;
+                viewNum = 0;
+            }
+        }
     }
+
 }
