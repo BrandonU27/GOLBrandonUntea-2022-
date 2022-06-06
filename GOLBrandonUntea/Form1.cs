@@ -16,12 +16,6 @@ namespace GOLBrandonUntea
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
 
-        // Game mode switch
-        int mode = 0;
-
-        // Number views on/off
-        int viewNum = 0;
-
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -52,7 +46,7 @@ namespace GOLBrandonUntea
                 for(int x = 0; x <universe.GetLength(0); x++)
                 {
                     // int count == CountNeighbor
-                    if(mode == 0)
+                    if (toroidalToolStripMenuItem.Checked == true)
                     {
                         count = CountNeighborsToroidal(x,y);
                     }
@@ -145,10 +139,12 @@ namespace GOLBrandonUntea
                     }
 
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-
+                    if (gridToolStripMenuItem.Checked == true)
+                    {
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
                     // Adds numbers if on
-                    if(viewNum == 0)
+                    if(neighborCountToolStripMenuItem.Checked == true)
                     {
                         Font font = new Font("Arial", 20f);
 
@@ -157,7 +153,7 @@ namespace GOLBrandonUntea
                         stringFormat.LineAlignment = StringAlignment.Center;
 
                         int neighbors;
-                        if(mode == 0) { neighbors = CountNeighborsToroidal(x, y); }
+                        if (toroidalToolStripMenuItem.Checked == true) { neighbors = CountNeighborsToroidal(x, y); }
                         else { neighbors = CountNeighborsFinite(x, y); }
 
                         if(neighbors == 0) { continue; }
@@ -186,9 +182,7 @@ namespace GOLBrandonUntea
             cellBrush.Dispose();
         }
 
-        //
-        //  NOTE TO SELF FIX CLICKING
-        //
+        // Clicking
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // If the left mouse button was clicked
@@ -199,9 +193,7 @@ namespace GOLBrandonUntea
                 float cellHeight = (float)graphicsPanel1.ClientSize.Height / universe.GetLength(1);
 
                 // Calculate the cell that was clicked in
-                // CELL X = MOUSE X / CELL WIDTH
                 float x = (float) e.X / cellWidth;
-                // CELL Y = MOUSE Y / CELL HEIGHT
                 float y = (float)e.Y / cellHeight;
 
                 // Toggle the cell's state
@@ -270,7 +262,9 @@ namespace GOLBrandonUntea
             return count;
         }
         #endregion
+
         // Buttons are all below
+
         #region Buttons
         // The start pause and next generation buttons function
         //Start
@@ -347,14 +341,14 @@ namespace GOLBrandonUntea
         {
             finiteToolStripMenuItem.Checked = false;
             toroidalToolStripMenuItem.Checked = true;
-            mode = 0;
+            graphicsPanel1.Invalidate();
         }
         //finite
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toroidalToolStripMenuItem.Checked = false;
             finiteToolStripMenuItem.Checked = true;
-            mode = 1;
+            graphicsPanel1.Invalidate();
         }
 
         private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
@@ -362,12 +356,23 @@ namespace GOLBrandonUntea
             if(neighborCountToolStripMenuItem.Checked == true)
             {
                 neighborCountToolStripMenuItem.Checked = false;
-                viewNum = 1;
             }
             else
             {
                 neighborCountToolStripMenuItem.Checked = true;
-                viewNum = 0;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gridToolStripMenuItem.Checked == true)
+            {
+                gridToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                gridToolStripMenuItem.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }
