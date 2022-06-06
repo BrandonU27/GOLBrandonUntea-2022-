@@ -195,14 +195,14 @@ namespace GOLBrandonUntea
             if (e.Button == MouseButtons.Left)
             {
                 // Calculate the width and height of each cell in pixels
-                float cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-                float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+                float cellWidth = (float)graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+                float cellHeight = (float)graphicsPanel1.ClientSize.Height / universe.GetLength(1);
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                float x = e.X / cellWidth;
+                float x = (float) e.X / cellWidth;
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                float y = e.Y / cellHeight;
+                float y = (float)e.Y / cellHeight;
 
                 // Toggle the cell's state
                 universe[(int)x, (int)y] = !universe[(int)x, (int)y];
