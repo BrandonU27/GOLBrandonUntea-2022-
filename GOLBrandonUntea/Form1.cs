@@ -264,8 +264,9 @@ namespace GOLBrandonUntea
         #endregion
 
         // Buttons are all below
+        // Top Menu Options below too
 
-        #region Buttons
+        #region ButtonsAndMenu
         // The start pause and next generation buttons function
         //Start
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -350,16 +351,18 @@ namespace GOLBrandonUntea
             finiteToolStripMenuItem.Checked = true;
             graphicsPanel1.Invalidate();
         }
-
+        // View control in the menu
         private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(neighborCountToolStripMenuItem.Checked == true)
             {
                 neighborCountToolStripMenuItem.Checked = false;
+                neighborToolStripMenuItem.Checked = false;
             }
             else
             {
                 neighborCountToolStripMenuItem.Checked = true;
+                neighborToolStripMenuItem.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }
@@ -369,15 +372,128 @@ namespace GOLBrandonUntea
             if (gridToolStripMenuItem.Checked == true)
             {
                 gridToolStripMenuItem.Checked = false;
+                gridToolStripMenuItem1.Checked = false;
             }
             else
             {
                 gridToolStripMenuItem.Checked = true;
+                gridColorToolStripMenuItem1.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }
 
+        // Color control in the menu
+        private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = graphicsPanel1.BackColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = cellColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = gridColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
         #endregion
+
+        // Context Menu Strip
+        // Methods and buttons
+
+        #region ContextMenuStrip
+        // View options of the context menu
+        private void neighborToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(neighborToolStripMenuItem.Checked == true)
+            {
+                neighborToolStripMenuItem.Checked = false;
+                neighborCountToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                neighborToolStripMenuItem.Checked = true;
+                neighborCountToolStripMenuItem.Checked = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (gridToolStripMenuItem1.Checked == true)
+            {
+                gridToolStripMenuItem1.Checked = false;
+                gridToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                gridToolStripMenuItem1.Checked = true;
+                gridToolStripMenuItem.Checked = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+        // Color settings of the context menu
+        private void backColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = graphicsPanel1.BackColor;
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void cellColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = cellColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = gridColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+        #endregion
+
+      
     }
 
 }
