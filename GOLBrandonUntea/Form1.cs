@@ -162,7 +162,21 @@ namespace GOLBrandonUntea
 
                         if(neighbors == 0) { continue; }
 
-                        e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                        bool isLive;
+                        isLive = universe[x, y];
+
+                        if (isLive == true)
+                        {
+                            if(neighbors < 2 || neighbors > 3) { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat); }
+                            else { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat); }
+                        }
+
+                        if (isLive == false)
+                        {
+                            if(neighbors != 3) { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat); }
+                            else { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat); }
+                        }
+                        
                     }
                 }
             }
@@ -199,6 +213,7 @@ namespace GOLBrandonUntea
         }
 
         // Count neighbors methods
+        #region NeighborsMethods
         private int CountNeighborsFinite(int x, int y)
         {
             int count = 0;
@@ -254,9 +269,9 @@ namespace GOLBrandonUntea
             }
             return count;
         }
-
+        #endregion
         // Buttons are all below
-
+        #region Buttons
         // The start pause and next generation buttons function
         //Start
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -354,7 +369,10 @@ namespace GOLBrandonUntea
                 neighborCountToolStripMenuItem.Checked = true;
                 viewNum = 0;
             }
+            graphicsPanel1.Invalidate();
         }
+
+        #endregion
     }
 
 }
