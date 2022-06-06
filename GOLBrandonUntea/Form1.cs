@@ -16,6 +16,9 @@ namespace GOLBrandonUntea
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
 
+        // Game mode switch
+        int mode = 0;
+
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -46,7 +49,14 @@ namespace GOLBrandonUntea
                 for(int x = 0; x <universe.GetLength(0); x++)
                 {
                     // int count == CountNeighbor
-                    count = CountNeighborsFinite(x, y);
+                    if(mode == 0)
+                    {
+                        count = CountNeighborsToroidal(x,y);
+                    }
+                    else
+                    {
+                        count = CountNeighborsFinite(x, y);
+                    }
 
                     // Apply the rules 
                     // Choose if the cell is off or on
@@ -179,14 +189,19 @@ namespace GOLBrandonUntea
                 {
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
+
                     // if xOffset and yOffset are both equal to 0 then continue
                     if(xOffset == 0 && yOffset == 0) { continue; }
+
                     // if xCheck is less than 0 then continue
                     if(xCheck < 0) { continue; }
+
                     // if yCheck is less than 0 then continue
                     if(yCheck < 0) { continue; }
+
                     // if xCheck is greater than or equal too xLen then continue
                     if(xCheck >= xLen) { continue; }
+
                     // if yCheck is greater than or equal too yLen then continue
                     if(yCheck >= yLen) { continue; }
 
@@ -207,14 +222,19 @@ namespace GOLBrandonUntea
                 {
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
+
                     // if xOffset and yOffset are both equal to 0 then continue
                     if(xOffset == 0 && yOffset == 0) { continue; }
+
                     // if xCheck is less than 0 then set to xLen - 1
                     if(xCheck < 0) { xCheck = xLen - 1; }
+
                     // if yCheck is less than 0 then set to yLen - 1
                     if(yCheck < 0) { yCheck = yLen - 1; }
+
                     // if xCheck is greater than or equal too xLen then set to 0
                     if(xCheck >= xLen) { xCheck = 0; }
+
                     // if yCheck is greater than or equal too yLen then set to 0
                     if(yCheck >= yLen) { yCheck = 0; }
 
@@ -291,6 +311,22 @@ namespace GOLBrandonUntea
             generations = 0;
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             graphicsPanel1.Invalidate();
+        }
+
+        // Mode buttons
+        // toroidal
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            finiteToolStripMenuItem.Checked = false;
+            toroidalToolStripMenuItem.Checked = true;
+            mode = 0;
+        }
+        //finite
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toroidalToolStripMenuItem.Checked = false;
+            finiteToolStripMenuItem.Checked = true;
+            mode = 1;
         }
     }
 }
