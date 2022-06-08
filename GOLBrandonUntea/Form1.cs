@@ -19,6 +19,7 @@ namespace GOLBrandonUntea
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
+        Color grid10Color = Color.Black;
 
         // The Timer class
         Timer timer = new Timer();
@@ -118,7 +119,10 @@ namespace GOLBrandonUntea
             
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
-            
+
+            // A Brush for drawing the grid x 10 lines (color, width)
+            Pen grid10Pen = new Pen(grid10Color, 3.5F);
+
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -142,8 +146,12 @@ namespace GOLBrandonUntea
                     if (gridToolStripMenuItem.Checked == true)
                     {
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                        // Draws the grid with 10 cells in each square
+                        e.Graphics.DrawRectangle(grid10Pen, (cellRect.X)*10, 10*(cellRect.Y), (cellRect.Width)*10, (cellRect.Height)*10);
                     }
-                    // Adds numbers if on
+
+                    // Adds numbers if on 
+                    // This is then used to center the text in the middle of the rectangle
                     if(neighborCountToolStripMenuItem.Checked == true)
                     {
                         Font font = new Font("Arial", 20f);
@@ -156,6 +164,7 @@ namespace GOLBrandonUntea
                         if (toroidalToolStripMenuItem.Checked == true) { neighbors = CountNeighborsToroidal(x, y); }
                         else { neighbors = CountNeighborsFinite(x, y); }
 
+                        // checks to see if there are even any neighbors to not waste time putting 0's
                         if(neighbors == 0) { continue; }
 
                         bool isLive;
@@ -211,6 +220,8 @@ namespace GOLBrandonUntea
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
+
+            // Goes throughout the universe array
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -218,6 +229,7 @@ namespace GOLBrandonUntea
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
 
+                    // These are the rules for the Finite count Neighbors
                     if(xOffset == 0 && yOffset == 0) { continue; }
 
                     if(xCheck < 0) { continue; }
@@ -239,6 +251,8 @@ namespace GOLBrandonUntea
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
+
+            // Goes throughout the universe array
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -246,6 +260,7 @@ namespace GOLBrandonUntea
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
 
+                    // Rules for the Toroidal count neighbors rule
                     if(xOffset == 0 && yOffset == 0) { continue; }
 
                     if(xCheck < 0) { xCheck = xLen - 1; }
@@ -306,8 +321,10 @@ namespace GOLBrandonUntea
         }
         
         // News the file in the tab
+        // Basically clears out the array for a new file
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Clears the universe array
             for(int y = 0; y < universe.GetLength(1); y++)
             {
                 for(int x = 0; x < universe.GetLength(0); x++)
@@ -315,12 +332,15 @@ namespace GOLBrandonUntea
                     universe[x, y] = false;
                 }
             }
+            
+            // Stops the timeer and sets the genreatios to 0
             timer.Enabled = false;
             generations = 0;
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            // Refreshes the graphics panel to show the changes
             graphicsPanel1.Invalidate();
         }
         // News the file throught the button
+        // Same functions as the button above this one
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -330,9 +350,10 @@ namespace GOLBrandonUntea
                     universe[x, y] = false;
                 }
             }
+            // Stops the timer and sets the generations to 0
             timer.Enabled = false;
             generations = 0;
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            // Refreshes the graphics panel to show the changes
             graphicsPanel1.Invalidate();
         }
 
@@ -418,6 +439,62 @@ namespace GOLBrandonUntea
                 graphicsPanel1.Invalidate();
             }
         }
+        
+        // Reset method that basically starts the file over again
+        // Like a new button but resets the colors too to bring it to the deafault
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                }
+            }
+            // Stops the timeer and sets the genreatios to 0
+            timer.Enabled = false;
+            generations = 0;
+            // Sets all the colors back to normal
+            gridColor = Color.Black;
+            cellColor = Color.Gray;
+            grid10Color = Color.Black;
+            graphicsPanel1.BackColor = Color.White;
+            // Sets all the views back to on
+            neighborCountToolStripMenuItem.Checked = true;
+            gridToolStripMenuItem.Checked = true;
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            // Refreshes the graphics panel to show the changes
+            graphicsPanel1.Invalidate();
+        }
+
+        private void reloadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gridX10ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = grid10Color;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                grid10Color = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridX10ColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = grid10Color;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                grid10Color = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
 
         #endregion
 
@@ -491,9 +568,10 @@ namespace GOLBrandonUntea
                 graphicsPanel1.Invalidate();
             }
         }
+
+
         #endregion
 
-      
     }
 
 }
