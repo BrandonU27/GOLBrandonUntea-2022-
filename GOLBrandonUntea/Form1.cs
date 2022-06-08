@@ -40,6 +40,7 @@ namespace GOLBrandonUntea
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+            // int to hold the number of counts for a cell
             int count;
 
             for(int y = 0; y < universe.GetLength(1); y++)
@@ -47,12 +48,15 @@ namespace GOLBrandonUntea
                 for(int x = 0; x <universe.GetLength(0); x++)
                 {
                     // int count == CountNeighbor
+                    // Checks to see which mode button is selected before choosing which method to use ( depends on mode)
                     if (toroidalToolStripMenuItem.Checked == true)
                     {
+                        // Toroidal mode
                         count = CountNeighborsToroidal(x,y);
                     }
                     else
                     {
+                        // Finite mode
                         count = CountNeighborsFinite(x, y);
                     }
 
@@ -215,6 +219,9 @@ namespace GOLBrandonUntea
 
         // Count neighbors methods
         #region NeighborsMethods
+
+        // The Finite method basically tells the program that the world doesn't wrap around
+        // If the cell hits the wall it don't go to the other side
         private int CountNeighborsFinite(int x, int y)
         {
             int count = 0;
@@ -246,6 +253,9 @@ namespace GOLBrandonUntea
             return count;
         }
 
+
+        // Toroidal wrapping the world around
+        // If a cell goes to one edge of the map it wraps around the to the other side
         private int CountNeighborsToroidal(int x, int y)
         {
             int count = 0;
@@ -283,38 +293,39 @@ namespace GOLBrandonUntea
 
         #region ButtonsAndMenu
         // The start pause and next generation buttons function
-        //Start
+
+        //Starts the timer
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
         }
-        //Pause
+        //Pause stops the timer
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
         }
-        //Next generation
+        //Next generation calls next generation without the timer
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             NextGeneration();
         }
 
-        // Start
+        // Starts the timer
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
         }
-        //Pause
+        //Pause stops the timer
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
         }
-        // Next generation
+        // Next generation calls the next gerneation without the timer
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NextGeneration();
         }
-        // Exit button
+        // Exit button quits the program
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -358,25 +369,30 @@ namespace GOLBrandonUntea
         }
 
         // Mode buttons
-        // toroidal
+        // toroidal sets the array to toroidal mode
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // If this is clicked it unchecks the other option and checks this one
             finiteToolStripMenuItem.Checked = false;
             toroidalToolStripMenuItem.Checked = true;
             graphicsPanel1.Invalidate();
         }
-        //finite
+        //finite sets the array to finite mode
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // If this is clicked it unchecks the other option and checks this one
             toroidalToolStripMenuItem.Checked = false;
             finiteToolStripMenuItem.Checked = true;
             graphicsPanel1.Invalidate();
         }
         // View control in the menu
+
+        // Turns on and off the numbers of the array
         private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(neighborCountToolStripMenuItem.Checked == true)
             {
+                // There is a second button for checking neighbors so it also includes turning it off and on
                 neighborCountToolStripMenuItem.Checked = false;
                 neighborToolStripMenuItem.Checked = false;
             }
@@ -388,10 +404,12 @@ namespace GOLBrandonUntea
             graphicsPanel1.Invalidate();
         }
 
+        // Turns off and on the main grid of the array on the screen
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (gridToolStripMenuItem.Checked == true)
             {
+                // There is a second button for showing the grid so it also includes turning it off and on
                 gridToolStripMenuItem.Checked = false;
                 gridToolStripMenuItem1.Checked = false;
             }
@@ -404,10 +422,15 @@ namespace GOLBrandonUntea
         }
 
         // Color control in the menu
+
+        // Sets the back color of the program by prompting a dialog box
         private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // creates a new color dialog box with pre set colors to pick from
             ColorDialog dlg = new ColorDialog();
             dlg.Color = graphicsPanel1.BackColor;
+            
+            // basically an if statement that says if the user hits ok then the selected color would be used
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
@@ -416,10 +439,14 @@ namespace GOLBrandonUntea
             }
         }
 
+        // Sets the cell color of the program by promting a dialog box
         private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // creates a new color dialog box with pre set colors to pick from
             ColorDialog dlg = new ColorDialog();
             dlg.Color = cellColor;
+
+            // basically an if statement that says if the user hits ok then the selected color would be used
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 cellColor = dlg.Color;
@@ -428,10 +455,14 @@ namespace GOLBrandonUntea
             }
         }
 
+        // Sets the grid color by prompting a dialog box
         private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // creates a new color dialog box with pre set colors to pick from
             ColorDialog dlg = new ColorDialog();
             dlg.Color = gridColor;
+
+            // basically an if statement that says if the user hits ok then the selected color would be used
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 gridColor = dlg.Color;
@@ -439,7 +470,24 @@ namespace GOLBrandonUntea
                 graphicsPanel1.Invalidate();
             }
         }
-        
+
+
+        // Sets the grid 10 square color by promting a dialog box
+        private void gridX10ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // creates a new color dialog box with pre set colors to pick from
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = grid10Color;
+
+            // basically an if statment that says if the user hits ok then the selected color would be used
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                grid10Color = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
+
         // Reset method that basically starts the file over again
         // Like a new button but resets the colors too to bring it to the deafault
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -472,29 +520,7 @@ namespace GOLBrandonUntea
 
         }
 
-        private void gridX10ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorDialog dlg = new ColorDialog();
-            dlg.Color = grid10Color;
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                grid10Color = dlg.Color;
-
-                graphicsPanel1.Invalidate();
-            }
-        }
-
-        private void gridX10ColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorDialog dlg = new ColorDialog();
-            dlg.Color = grid10Color;
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                grid10Color = dlg.Color;
-
-                graphicsPanel1.Invalidate();
-            }
-        }
+        
 
         #endregion
 
@@ -503,6 +529,8 @@ namespace GOLBrandonUntea
 
         #region ContextMenuStrip
         // View options of the context menu
+
+        // Same as the other view options in the other buttons but located in the context strip
         private void neighborToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(neighborToolStripMenuItem.Checked == true)
@@ -518,6 +546,7 @@ namespace GOLBrandonUntea
             graphicsPanel1.Invalidate();
         }
 
+        // Same as the other view options in the other buttons but located in the context strip
         private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (gridToolStripMenuItem1.Checked == true)
@@ -533,6 +562,8 @@ namespace GOLBrandonUntea
             graphicsPanel1.Invalidate();
         }
         // Color settings of the context menu
+
+        // Same as the other color button but this one is located in the context strip
         private void backColorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -545,6 +576,7 @@ namespace GOLBrandonUntea
             }
         }
 
+        // Same as the other color button but this one is located in the context strip
         private void cellColorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -557,6 +589,7 @@ namespace GOLBrandonUntea
             }
         }
 
+        // Same as the other color button but this one is located in the context strip
         private void gridColorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -569,6 +602,18 @@ namespace GOLBrandonUntea
             }
         }
 
+        // Same as the other color button but this one is located in the context strip
+        private void gridX10ColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = grid10Color;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                grid10Color = dlg.Color;
+
+                graphicsPanel1.Invalidate();
+            }
+        }
 
         #endregion
 
