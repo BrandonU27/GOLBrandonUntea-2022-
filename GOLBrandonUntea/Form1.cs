@@ -12,6 +12,7 @@ namespace GOLBrandonUntea
 {
     public partial class Form1 : Form
     {
+
         // The universe array
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
@@ -615,6 +616,53 @@ namespace GOLBrandonUntea
             }
         }
 
+        // Opens a dialog box to ask the user which generation to run to before stopping
+       //
+       //   WORK MORE ON THE TO
+       //
+        private void toToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Run_To_Dialog dlg = new Run_To_Dialog();
+            timer.Enabled = false;
+            int endNumber = generations;
+
+            dlg.Number = generations + 1;
+
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                endNumber = dlg.Number;
+            }
+
+            for (int i = generations; i < endNumber; i++)
+            {
+                NextGeneration();
+            }
+            
+        }
+
+        // Option Button that opens a dialog box to change options
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Makes the options form from the existing form
+            Options dlg = new Options();
+
+            // Gets all the options its currently on and setting them in the numberUpDowns in the other form
+            dlg.Milliseconds = timer.Interval;
+            dlg.Width = universe.GetLength(0);
+            dlg.Height = universe.GetLength(1);
+
+            // Sets it so that when the user presses ok then all the information that is changed is applied to the universe and scratchpad
+            // also the timer if the user changed anything
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                timer.Interval = dlg.Milliseconds;
+                universe = new bool[dlg.Width, dlg.Height];
+                scratchPad = new bool[dlg.Width, dlg.Height];
+            }
+
+            // Refreshes the graphicspanel so that if there are any changes it shows
+            graphicsPanel1.Invalidate();
+        }
         #endregion
 
     }

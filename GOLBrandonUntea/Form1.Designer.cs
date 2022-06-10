@@ -348,6 +348,7 @@ namespace GOLBrandonUntea
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -470,7 +471,7 @@ namespace GOLBrandonUntea
             this.toolStripSeparator5,
             this.colorToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(104, 54);
             // 
             // viewToolStripMenuItem1
             // 
@@ -567,6 +568,7 @@ namespace GOLBrandonUntea
             this.toToolStripMenuItem.Name = "toToolStripMenuItem";
             this.toToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.toToolStripMenuItem.Text = "To";
+            this.toToolStripMenuItem.Click += new System.EventHandler(this.toToolStripMenuItem_Click);
             // 
             // Form1
             // 
