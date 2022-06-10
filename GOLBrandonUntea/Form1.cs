@@ -417,7 +417,7 @@ namespace GOLBrandonUntea
             else
             {
                 gridToolStripMenuItem.Checked = true;
-                gridColorToolStripMenuItem1.Checked = true;
+                gridToolStripMenuItem1.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }
@@ -656,6 +656,8 @@ namespace GOLBrandonUntea
             // Stores the original size of the array
             int originalWidth = universe.GetLength(0);
             int originalHeight = universe.GetLength(1);
+
+            // Sets the dlg to the original so user knows what the current size is
             dlg.Width = originalWidth;
             dlg.Height = originalHeight;
 
@@ -665,6 +667,7 @@ namespace GOLBrandonUntea
             {
                 timer.Interval = dlg.Milliseconds;
 
+                // Checks to see if the user changed anything if so then new array is created with the sizes they asked for
                 if(dlg.Width != originalWidth || dlg.Height != originalHeight)
                 {
                     universe = new bool[dlg.Width, dlg.Height];
