@@ -646,18 +646,30 @@ namespace GOLBrandonUntea
             // Makes the options form from the existing form
             Options dlg = new Options();
 
+            // Stops the timer when opened
+            timer.Enabled = false;
+
             // Gets all the options its currently on and setting them in the numberUpDowns in the other form
             dlg.Milliseconds = timer.Interval;
-            dlg.Width = universe.GetLength(0);
-            dlg.Height = universe.GetLength(1);
+
+            // Gets the information about the array before settings
+            // Stores the original size of the array
+            int originalWidth = universe.GetLength(0);
+            int originalHeight = universe.GetLength(1);
+            dlg.Width = originalWidth;
+            dlg.Height = originalHeight;
 
             // Sets it so that when the user presses ok then all the information that is changed is applied to the universe and scratchpad
             // also the timer if the user changed anything
             if(DialogResult.OK == dlg.ShowDialog())
             {
                 timer.Interval = dlg.Milliseconds;
-                universe = new bool[dlg.Width, dlg.Height];
-                scratchPad = new bool[dlg.Width, dlg.Height];
+
+                if(dlg.Width != originalWidth || dlg.Height != originalHeight)
+                {
+                    universe = new bool[dlg.Width, dlg.Height];
+                    scratchPad = new bool[dlg.Width, dlg.Height];
+                }
             }
 
             // Refreshes the graphicspanel so that if there are any changes it shows
