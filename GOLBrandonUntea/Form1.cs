@@ -35,11 +35,14 @@ namespace GOLBrandonUntea
 
         public Form1()
         {
+            InitializeComponent();
+
             // Looks into the settings and sees what size to make the array
             universe = new bool[originalWidth, originalHeight];
             scratchPad = new bool[originalWidth, originalHeight];
 
-            InitializeComponent();
+            // Sets the background color to the settings one
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
 
             // Setup the timer
             // Gets the settings and looks to see what to set to
@@ -500,35 +503,42 @@ namespace GOLBrandonUntea
         }
 
         // Reset method that basically starts the file over again
-        // Like a new button but resets the colors too to bring it to the deafault
+        // By reseting the properties
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = false;
-                }
-            }
-            // Stops the timeer and sets the genreatios to 0
-            timer.Enabled = false;
-            generations = 0;
-            // Sets all the colors back to normal
-            gridColor = Color.Black;
-            cellColor = Color.Gray;
-            grid10Color = Color.Black;
-            graphicsPanel1.BackColor = Color.White;
-            // Sets all the views back to on
-            neighborCountToolStripMenuItem.Checked = true;
-            gridToolStripMenuItem.Checked = true;
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-            // Refreshes the graphics panel to show the changes
-            graphicsPanel1.Invalidate();
+            Properties.Settings.Default.Reset();
+
+            // Reading the Properties
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
+            gridColor = Properties.Settings.Default.GridColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            grid10Color = Properties.Settings.Default.Gridx10Color;
+
+            timer.Interval = Properties.Settings.Default.Milliseconds;
+            originalHeight = Properties.Settings.Default.GridHeight;
+            originalWidth = Properties.Settings.Default.GridWidth;
+
+            universe = new bool[originalWidth, originalHeight];
+            scratchPad = new bool[originalWidth, originalHeight];
+
         }
 
         private void reloadToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.Reload();
 
+            // Reading the Properties
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
+            gridColor = Properties.Settings.Default.GridColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            grid10Color = Properties.Settings.Default.Gridx10Color;
+
+            timer.Interval = Properties.Settings.Default.Milliseconds;
+            originalHeight = Properties.Settings.Default.GridHeight;
+            originalWidth = Properties.Settings.Default.GridWidth;
+
+            universe = new bool[originalWidth, originalHeight];
+            scratchPad = new bool[originalWidth, originalHeight];
         }
 
         
@@ -663,8 +673,8 @@ namespace GOLBrandonUntea
             dlg.Milliseconds = timer.Interval;
 
             // Sets the dlg to the original so user knows what the current size is
-            dlg.Width = originalWidth;
-            dlg.Height = originalHeight;
+            dlg.Width = universe.GetLength(0);
+            dlg.Height = universe.GetLength(1);
 
             // Sets it so that when the user presses ok then all the information that is changed is applied to the universe and scratchpad
             // also the timer if the user changed anything
@@ -677,6 +687,10 @@ namespace GOLBrandonUntea
                 {
                     universe = new bool[dlg.Width, dlg.Height];
                     scratchPad = new bool[dlg.Width, dlg.Height];
+
+                    // Changes the settings value
+                    originalWidth = dlg.Width;
+                    originalHeight = dlg.Height;
                 }
             }
 
@@ -688,7 +702,17 @@ namespace GOLBrandonUntea
         // Gets called when the form is closed in anyway
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // Updates all the properties when closing the program
+            Properties.Settings.Default.BackColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.CellColor = cellColor;
+            Properties.Settings.Default.GridColor = gridColor;
+            Properties.Settings.Default.Gridx10Color = grid10Color;
+            Properties.Settings.Default.GridWidth = originalWidth;
+            Properties.Settings.Default.GridHeight = originalHeight;
+            Properties.Settings.Default.Milliseconds = timer.Interval;
 
+            // Saves all the properties that have been taken in
+            Properties.Settings.Default.Save();
         }
     }
 
