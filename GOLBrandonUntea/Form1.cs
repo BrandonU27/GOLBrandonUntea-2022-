@@ -13,14 +13,19 @@ namespace GOLBrandonUntea
     public partial class Form1 : Form
     {
 
-        // The universe array
-        bool[,] universe = new bool[30, 30];
-        bool[,] scratchPad = new bool[30, 30];
+        // Default Width and Height
+        int originalWidth = Properties.Settings.Default.GridWidth;
+        int originalHeight = Properties.Settings.Default.GridHeight;
+
+        // The universe array and scratchPad array
+        bool[,] universe;
+        bool[,] scratchPad;
 
         // Drawing colors
-        Color gridColor = Color.Black;
-        Color cellColor = Color.Gray;
-        Color grid10Color = Color.Black;
+        // Gets the settings and looks to see what to set to
+        Color gridColor = Properties.Settings.Default.GridColor;
+        Color cellColor = Properties.Settings.Default.CellColor;
+        Color grid10Color = Properties.Settings.Default.Gridx10Color;
 
         // The Timer class
         Timer timer = new Timer();
@@ -30,10 +35,15 @@ namespace GOLBrandonUntea
 
         public Form1()
         {
+            // Looks into the settings and sees what size to make the array
+            universe = new bool[originalWidth, originalHeight];
+            scratchPad = new bool[originalWidth, originalHeight];
+
             InitializeComponent();
 
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            // Gets the settings and looks to see what to set to
+            timer.Interval = Properties.Settings.Default.Milliseconds; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
@@ -652,11 +662,6 @@ namespace GOLBrandonUntea
             // Gets all the options its currently on and setting them in the numberUpDowns in the other form
             dlg.Milliseconds = timer.Interval;
 
-            // Gets the information about the array before settings
-            // Stores the original size of the array
-            int originalWidth = universe.GetLength(0);
-            int originalHeight = universe.GetLength(1);
-
             // Sets the dlg to the original so user knows what the current size is
             dlg.Width = originalWidth;
             dlg.Height = originalHeight;
@@ -680,6 +685,11 @@ namespace GOLBrandonUntea
         }
         #endregion
 
+        // Gets called when the form is closed in anyway
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
     }
 
 }
