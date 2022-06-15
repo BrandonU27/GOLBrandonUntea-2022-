@@ -33,6 +33,12 @@ namespace GOLBrandonUntea
         // Generation count
         int generations = 0;
 
+        // Living cells count
+        int livingCells = 0;
+
+        // hub visible setting
+        bool hudOn = true;
+
         public Form1()
         {
             InitializeComponent();
@@ -87,9 +93,10 @@ namespace GOLBrandonUntea
                     if (universe[x,y] == false)
                     {
                         if (count == 3) { scratchPad[x, y] = true; }
+                        else if(count != 3) { scratchPad[x, y] = false; }
                     }
 
-                    
+                        
                 }   
 
             }
@@ -101,6 +108,7 @@ namespace GOLBrandonUntea
             universe = scratchPad;
             scratchPad = temp;
 
+            // Clears out the scratchPad after the copy
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 for (int x = 0; x < universe.GetLength(0); x++)
@@ -172,12 +180,14 @@ namespace GOLBrandonUntea
                     // This is then used to center the text in the middle of the rectangle
                     if(neighborCountToolStripMenuItem.Checked == true)
                     {
+                        // Sets the font and format of the number that is going to be added
                         Font font = new Font("Arial", 20f);
 
                         StringFormat stringFormat = new StringFormat();
                         stringFormat.Alignment = StringAlignment.Center;
                         stringFormat.LineAlignment = StringAlignment.Center;
 
+                        // gets the neighbor count based on the mode its on
                         int neighbors;
                         if (toroidalToolStripMenuItem.Checked == true) { neighbors = CountNeighborsToroidal(x, y); }
                         else { neighbors = CountNeighborsFinite(x, y); }
@@ -188,8 +198,10 @@ namespace GOLBrandonUntea
                         bool isLive;
                         isLive = universe[x, y];
 
+                        // Checks to see if its alive or dead for diffrent rules
                         if (isLive == true)
                         {
+                            livingCells++;
                             if(neighbors < 2 || neighbors > 3) { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat); }
                             else { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat); }
                         }
@@ -202,6 +214,14 @@ namespace GOLBrandonUntea
                         
                     }
                 }
+            }
+
+            
+            // Draws the hud on the grid
+            if (hudOn)
+            {
+                // Draws hud if its true
+
             }
 
             // Cleaning up pens and brushes
@@ -541,7 +561,23 @@ namespace GOLBrandonUntea
             scratchPad = new bool[originalWidth, originalHeight];
         }
 
-        
+        private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Once clicked on will turn the hud on or off
+            // switches the bool to off or on also the check mark
+            if (hUDToolStripMenuItem.Checked == true)
+            {
+                hUDToolStripMenuItem.Checked = false;
+                hUDToolStripMenuItem1.Checked = false;
+                hudOn = false;
+            }
+            else
+            {
+                hUDToolStripMenuItem.Checked = true;
+                hUDToolStripMenuItem1.Checked = true;
+                hudOn = true;
+            }
+        }
 
         #endregion
 
@@ -697,6 +733,26 @@ namespace GOLBrandonUntea
             // Refreshes the graphicspanel so that if there are any changes it shows
             graphicsPanel1.Invalidate();
         }
+
+        private void hUDToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // Same as the other button just diffrent location
+            // Once clicked on will turn the hud on or off
+            // switches the bool to off or on also the check mark
+            if (hUDToolStripMenuItem1.Checked == true)
+            {
+                hUDToolStripMenuItem1.Checked = false;
+                hUDToolStripMenuItem.Checked = false;
+                hudOn = false;
+            }
+            else
+            {
+                hUDToolStripMenuItem1.Checked = true;
+                hUDToolStripMenuItem.Checked = true;
+                hudOn = true;
+            }
+        }
+
         #endregion
 
         // Gets called when the form is closed in anyway
@@ -714,6 +770,7 @@ namespace GOLBrandonUntea
             // Saves all the properties that have been taken in
             Properties.Settings.Default.Save();
         }
+
     }
 
 }

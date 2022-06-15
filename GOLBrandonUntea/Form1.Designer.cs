@@ -188,9 +188,12 @@ namespace GOLBrandonUntea
             // 
             // hUDToolStripMenuItem
             // 
+            this.hUDToolStripMenuItem.Checked = true;
+            this.hUDToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hUDToolStripMenuItem.Name = "hUDToolStripMenuItem";
-            this.hUDToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.hUDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hUDToolStripMenuItem.Text = "HUD";
+            this.hUDToolStripMenuItem.Click += new System.EventHandler(this.hUDToolStripMenuItem_Click);
             // 
             // neighborCountToolStripMenuItem
             // 
@@ -320,59 +323,59 @@ namespace GOLBrandonUntea
             // backColorToolStripMenuItem
             // 
             this.backColorToolStripMenuItem.Name = "backColorToolStripMenuItem";
-            this.backColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.backColorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.backColorToolStripMenuItem.Text = "Back Color";
             this.backColorToolStripMenuItem.Click += new System.EventHandler(this.backColorToolStripMenuItem_Click);
             // 
             // cellColorToolStripMenuItem
             // 
             this.cellColorToolStripMenuItem.Name = "cellColorToolStripMenuItem";
-            this.cellColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cellColorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cellColorToolStripMenuItem.Text = "Cell Color";
             this.cellColorToolStripMenuItem.Click += new System.EventHandler(this.cellColorToolStripMenuItem_Click);
             // 
             // gridColorToolStripMenuItem
             // 
             this.gridColorToolStripMenuItem.Name = "gridColorToolStripMenuItem";
-            this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gridColorToolStripMenuItem.Text = "Grid Color";
             this.gridColorToolStripMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
             // 
             // gridX10ToolStripMenuItem
             // 
             this.gridX10ToolStripMenuItem.Name = "gridX10ToolStripMenuItem";
-            this.gridX10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridX10ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gridX10ToolStripMenuItem.Text = "Grid x 10 Color";
             this.gridX10ToolStripMenuItem.Click += new System.EventHandler(this.gridX10ToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.reloadToolStripMenuItem.Text = "Reset";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem1
             // 
             this.reloadToolStripMenuItem1.Name = "reloadToolStripMenuItem1";
-            this.reloadToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.reloadToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.reloadToolStripMenuItem1.Text = "Reload";
             this.reloadToolStripMenuItem1.Click += new System.EventHandler(this.reloadToolStripMenuItem1_Click);
             // 
@@ -478,7 +481,7 @@ namespace GOLBrandonUntea
             this.toolStripSeparator5,
             this.colorToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(104, 54);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 76);
             // 
             // viewToolStripMenuItem1
             // 
@@ -487,14 +490,17 @@ namespace GOLBrandonUntea
             this.neighborToolStripMenuItem,
             this.gridToolStripMenuItem1});
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.viewToolStripMenuItem1.Text = "View";
             // 
             // hUDToolStripMenuItem1
             // 
+            this.hUDToolStripMenuItem1.Checked = true;
+            this.hUDToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hUDToolStripMenuItem1.Name = "hUDToolStripMenuItem1";
-            this.hUDToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.hUDToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.hUDToolStripMenuItem1.Text = "HUD";
+            this.hUDToolStripMenuItem1.Click += new System.EventHandler(this.hUDToolStripMenuItem1_Click);
             // 
             // neighborToolStripMenuItem
             // 
