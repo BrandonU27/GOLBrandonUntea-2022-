@@ -40,6 +40,9 @@ namespace GOLBrandonUntea
         // hub visible setting
         bool hudOn = true;
 
+        // Current Seed
+        int currentSeed = 2003;
+
         public Form1()
         {
             InitializeComponent();
@@ -261,18 +264,44 @@ namespace GOLBrandonUntea
         {
 
             //Random rand = new Random(); Time
-            //Takes a seed for seed
+            Random rand = new Random();
 
+            // Loops throughout the universe
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate throught the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // Call next (0,2)
-
+                    int num = rand.Next(0, 2);
                     // if random == 0 then turn on other then that turn off
+                    if(num == 0) { universe[x, y] = true; }
+                    else { universe[x, y] = false; }
                 }
             }
+            graphicsPanel1.Invalidate();
+        }
+
+        // Randomize but enters a seed into the var so that seeds stay the same
+        private void RandomizeSeed(int seed)
+        {
+            //Takes a seed for seed
+            Random randSeed = new Random(seed);
+
+            // loops throughout the universe
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    // Generates random number then puts it into the universe
+                    int num = randSeed.Next(0, 2);
+
+                    // if the number is 0 then that means the cell is alive
+                    if(num == 0){ universe[x, y] = true; }
+                    else { universe[x, y] = false; }
+                }
+            }
+            graphicsPanel1.Invalidate();
         }
 
         // Count neighbors methods
@@ -1061,6 +1090,48 @@ namespace GOLBrandonUntea
         }
         #endregion
 
+
+        // Code for all the buttons that involve randomize
+        #region RandomizeButtons
+
+        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Makes the options form from the existing form
+            Seed dlg = new Seed();
+
+            // Stops the timer when opened
+            timer.Enabled = false;
+
+            dlg.SeedNum = currentSeed;
+
+            // checks what the user entered in the box and then setting that as the current seed
+            // also randomkizes the file too with that seed
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+
+                currentSeed = dlg.SeedNum;
+                RandomizeSeed(currentSeed);
+
+            }
+
+            // Refreshes the graphicspanel so that if there are any changes it shows
+            graphicsPanel1.Invalidate();
+        }
+
+        // Gets the current seed
+        private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Takes the current seed and places it in a method
+            RandomizeSeed(currentSeed);
+        }
+
+        private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Uses the regular randomize method that uses the systems time
+            Randomize();
+        }
+
+        #endregion
     }
 
 }

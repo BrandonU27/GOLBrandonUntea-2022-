@@ -283,20 +283,23 @@ namespace GOLBrandonUntea
             // fromSeedToolStripMenuItem
             // 
             this.fromSeedToolStripMenuItem.Name = "fromSeedToolStripMenuItem";
-            this.fromSeedToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.fromSeedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromSeedToolStripMenuItem.Text = "From Seed";
+            this.fromSeedToolStripMenuItem.Click += new System.EventHandler(this.fromSeedToolStripMenuItem_Click);
             // 
             // fromCurrentSeedToolStripMenuItem
             // 
             this.fromCurrentSeedToolStripMenuItem.Name = "fromCurrentSeedToolStripMenuItem";
-            this.fromCurrentSeedToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.fromCurrentSeedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromCurrentSeedToolStripMenuItem.Text = "From Current Seed";
+            this.fromCurrentSeedToolStripMenuItem.Click += new System.EventHandler(this.fromCurrentSeedToolStripMenuItem_Click);
             // 
             // fromTimeToolStripMenuItem
             // 
             this.fromTimeToolStripMenuItem.Name = "fromTimeToolStripMenuItem";
-            this.fromTimeToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.fromTimeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromTimeToolStripMenuItem.Text = "From Time";
+            this.fromTimeToolStripMenuItem.Click += new System.EventHandler(this.fromTimeToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
