@@ -43,6 +43,9 @@ namespace GOLBrandonUntea
         // Current Seed
         int currentSeed = 2003;
 
+        // Run till
+        int toRun = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -67,7 +70,7 @@ namespace GOLBrandonUntea
             // int to hold the number of counts for a cell
             int count;
 
-            for(int y = 0; y < universe.GetLength(1); y++)
+            for (int y = 0; y < universe.GetLength(1); y++)
             {
                 for(int x = 0; x <universe.GetLength(0); x++)
                 {
@@ -132,11 +135,21 @@ namespace GOLBrandonUntea
                 }
             }
 
-            // Increment generation count
-            generations++;
+                // Increment generation count
+                generations++;
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+
+            // If the user used the to run button will stop the program once the number is reached
+            if (toRun != 0)
+            {
+                if (generations == toRun)
+                {
+                    timer.Enabled = false; toRun = 0;
+
+                }
+            }
 
             graphicsPanel1.Invalidate();
         }
@@ -771,18 +784,11 @@ namespace GOLBrandonUntea
             timer.Enabled = false;
             int endNumber = generations;
 
-            dlg.Number = generations + 1;
-
             if(DialogResult.OK == dlg.ShowDialog())
             {
-                endNumber = dlg.Number;
+                toRun = dlg.Number;
+                timer.Enabled = true;
             }
-
-            for (int i = generations; i < endNumber; i++)
-            {
-                NextGeneration();
-            }
-            
         }
 
         // Option Button that opens a dialog box to change options
@@ -987,6 +993,17 @@ namespace GOLBrandonUntea
 
                 // Close the file.
                 reader.Close();
+
+                // Starts the cell count fresh
+                livingCells = 0;
+                // Loops throughout the cells to get the cell count
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        if(universe[x,y] == true) { livingCells++; }
+                    }
+                }
 
                 graphicsPanel1.Invalidate();
             }
