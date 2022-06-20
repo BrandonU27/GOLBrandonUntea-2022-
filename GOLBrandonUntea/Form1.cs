@@ -105,6 +105,17 @@ namespace GOLBrandonUntea
 
             }
 
+            // Goes throughout the scratchpad to update the cell count at the end of each gen
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    if (scratchPad[x, y] == true && universe[x, y] == false) { livingCells++; }
+                    if (scratchPad[x,y] == false && universe[x,y] == true) { livingCells--; }
+                }
+            }
+
+
             // Copy from scratchPad to universe
             // Make sure to clear the scratchPad after
 
@@ -205,7 +216,6 @@ namespace GOLBrandonUntea
                         // Checks to see if its alive or dead for diffrent rules
                         if (isLive == true)
                         {
-                            livingCells++;
                             if(neighbors < 2 || neighbors > 3) { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, cellRect, stringFormat); }
                             else { e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, cellRect, stringFormat); }
                         }
@@ -223,14 +233,23 @@ namespace GOLBrandonUntea
             Font hudFont = new Font("Arial", 20F);
 
             // Draws the hud on the grid
-            //
-            //
-            // Work on grid
-            //
-            //
+            // Makes a string to hold what type to display on the hud
+            string BoundType;
+            if(finiteToolStripMenuItem.Checked == true) { BoundType = "Finite"; }
+            else { BoundType = "Toroidal"; }
+
+            // Creates a point on the bottom left of the screen
+            Point hudPoint = new Point(0,(int)((universe.GetLength(1) - 2) * cellHeight));
+            // Goes and prints each line of the hud and then updates the pointer so it doesnt appear on top of each other
             if (hudOn)
             {
-                
+                e.Graphics.DrawString($"Universe Size: Width=[{originalWidth}, Height={originalHeight}]", hudFont, Brushes.Pink, hudPoint);
+                hudPoint = new Point(0, (int)((universe.GetLength(1) - 3) * cellHeight));
+                e.Graphics.DrawString($"Bountary type: {BoundType}", hudFont, Brushes.Pink, hudPoint);
+                hudPoint = new Point(0, (int)((universe.GetLength(1) - 4) * cellHeight));
+                e.Graphics.DrawString($"Cell Count: {livingCells}", hudFont, Brushes.Pink, hudPoint);
+                hudPoint = new Point(0, (int)((universe.GetLength(1) - 5) * cellHeight));
+                e.Graphics.DrawString($"Generation: {generations}", hudFont, Brushes.Pink, hudPoint);
             }
 
             // Cleaning up pens and brushes
@@ -254,6 +273,9 @@ namespace GOLBrandonUntea
 
                 // Toggle the cell's state
                 universe[(int)x, (int)y] = !universe[(int)x, (int)y];
+
+                if(universe[(int)x, (int)y] == true) { livingCells++; }
+                else { livingCells--; }
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
@@ -451,6 +473,8 @@ namespace GOLBrandonUntea
             // Stops the timer and sets the generations to 0
             timer.Enabled = false;
             generations = 0;
+            // Changes the cell count to 0
+            livingCells = 0;
             // Refreshes the graphics panel to show the changes
             graphicsPanel1.Invalidate();
         }
@@ -594,6 +618,10 @@ namespace GOLBrandonUntea
             universe = new bool[originalWidth, originalHeight];
             scratchPad = new bool[originalWidth, originalHeight];
 
+            // Setting any extras back to to the default
+            timer.Enabled = false;
+            generations = 0;
+            livingCells = 0;
             graphicsPanel1.Invalidate();
         }
 
@@ -614,6 +642,10 @@ namespace GOLBrandonUntea
             universe = new bool[originalWidth, originalHeight];
             scratchPad = new bool[originalWidth, originalHeight];
 
+            // Setting any extras back to normal
+            livingCells = 0;
+            timer.Enabled = false;
+            generations = 0;
             graphicsPanel1.Invalidate();
         }
 
